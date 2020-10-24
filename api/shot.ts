@@ -30,7 +30,7 @@ async function shot(videoID: string) {
         await Promise.all([
             page.addStyleTag({
                 // 上のドット絵をきれいに表示するように
-                content: "body > table img { image-rendering: crisp-edges; }",
+                content: "body > table img { image-rendering: -webkit-optimize-contrast; }",
             }),
             page.addStyleTag({
                 // iframeで付くはずの枠を自分で付ける
