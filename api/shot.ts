@@ -11,7 +11,7 @@ function getThumbURL(videoID: string) {
 }
 
 function chromiumFontSetup() {
-    const HOME = process.env.HOME ?? "/tmp"
+    const HOME = process.env.HOME || "/tmp"
     const dest = HOME + "/.fonts"
     if (!fs.existsSync(dest)) fs.mkdirSync(dest)
     const src = __dirname+"/../fonts/mplus"
