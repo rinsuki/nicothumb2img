@@ -10,10 +10,10 @@ function getThumbURL(videoID: string) {
 
 async function shot(videoID: string) {
     await chromium.font(
-        "https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@be6c059ac1587e556e2412b27f5155c8eb3ddbe6/NotoSansCJKjp-Regular.otf"
+        "https://mplus-fonts.osdn.jp/webfonts/general-j/mplus-1-regular-sub.woff"
     )
     await chromium.font(
-        "https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@ea9154f9a0947972baa772bc6744f1ec50007575/hinted/NotoSans/NotoSans-Regular.ttf"
+        "https://mplus-fonts.osdn.jp/webfonts/basic_latin/mplus-1p-medium-sub.woff"
     )
     const { puppeteer } = chromium
     const agent = await puppeteer.launch({
