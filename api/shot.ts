@@ -1,4 +1,4 @@
-import * as chromium from "chrome-aws-lambda"
+import chromium from "chrome-aws-lambda"
 import { NowRequest, NowResponse } from "@vercel/node"
 
 function getThumbURL(videoID: string) {
