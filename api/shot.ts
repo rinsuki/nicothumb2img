@@ -58,6 +58,6 @@ export default async function (req: NowRequest, res: NowResponse) {
     const img = await shot(videoID)
     res.setHeader("Content-Type", "image/png")
     res.setHeader("Cache-Control", "max-age=86400, public, stale-while-revalidate")
-    res.setHeader("Content-DPR", "144")
+    res.setHeader("Content-DPR", "2.0")
     res.send(img)
 }
