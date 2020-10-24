@@ -18,6 +18,11 @@ async function shot(videoID: string) {
             width: 312 + 2,
             height: 176 + 2,
         },
+        executablePath: await chromium.executablePath,
+        env: {
+            ...process.env,
+            LANG: "ja_JP.UTF-8"
+        }
     })
     const page = await agent.newPage()
     try {
