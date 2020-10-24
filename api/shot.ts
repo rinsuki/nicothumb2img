@@ -1,5 +1,7 @@
 import chromium from "chrome-aws-lambda"
 import { NowRequest, NowResponse } from "@vercel/node"
+import fs from "fs"
+import path from "path"
 
 function getThumbURL(videoID: string) {
     if (videoID.startsWith("im") || videoID.startsWith("mg")) {
@@ -8,13 +10,19 @@ function getThumbURL(videoID: string) {
     return `https://ext.nicovideo.jp/thumb/${videoID}`
 }
 
+function chromiumFontSetup() {
+    const dest = process.env.HOME + "/.fonts"
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest)
+    const src = __dirname+"/../fonts/mplus"
+    for (const font of fs.readdirSync(src)) {
+        if (!font.endsWith(".ttf")) continue
+        if (fs.existsSync(path.join(dest, font))) continue
+        fs.copyFileSync(path.join(src, font), path.join(dest, font))
+    }
+}
+
 async function shot(videoID: string) {
-    await chromium.font(
-        "https://mplus-fonts.osdn.jp/webfonts/general-j/mplus-1-regular-sub.woff"
-    )
-    await chromium.font(
-        "https://mplus-fonts.osdn.jp/webfonts/basic_latin/mplus-1p-regular-sub.woff"
-    )
+    chromiumFontSetup()
     const { puppeteer } = chromium
     const agent = await puppeteer.launch({
         args: chromium.args,
