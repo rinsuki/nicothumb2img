@@ -1,9 +1,5 @@
-import { firefox } from "playwright-firefox"
+import * as chromium from "chrome-aws-lambda"
 import { NowRequest, NowResponse } from "@vercel/node"
-
-const agentPromise = firefox.launch({
-    headless: true,
-})
 
 function getThumbURL(videoID: string) {
     if (videoID.startsWith("im") || videoID.startsWith("mg")) {
@@ -13,15 +9,17 @@ function getThumbURL(videoID: string) {
 }
 
 async function shot(videoID: string) {
-    const agent = await agentPromise
-    const page = await agent.newPage({
-        deviceScaleFactor: 2,
-        locale: "ja-JP",
-        viewport: {
+    const { puppeteer } = chromium
+    const agent = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: {
+            deviceScaleFactor: 2,
+            // + 2 はこっちで付け足す border 用
             width: 312 + 2,
             height: 176 + 2,
-        }
+        },
     })
+    const page = await agent.newPage()
     try {
         await page.goto(getThumbURL(videoID))
         await Promise.all([

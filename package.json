@@ -8,9 +8,11 @@
   "private": true,
   "dependencies": {
     "@vercel/node": "^1.8.4",
-    "playwright-firefox": "^1.5.1"
+    "chrome-aws-lambda": "^5.3.1",
+    "puppeteer-core": "^5.4.0"
   },
   "devDependencies": {
+    "@types/puppeteer-core": "^2.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   }
