@@ -13,7 +13,7 @@ async function shot(videoID: string) {
         "https://mplus-fonts.osdn.jp/webfonts/general-j/mplus-1-regular-sub.woff"
     )
     await chromium.font(
-        "https://mplus-fonts.osdn.jp/webfonts/basic_latin/mplus-1p-medium-sub.woff"
+        "https://mplus-fonts.osdn.jp/webfonts/basic_latin/mplus-1p-regular-sub.woff"
     )
     const { puppeteer } = chromium
     const agent = await puppeteer.launch({
