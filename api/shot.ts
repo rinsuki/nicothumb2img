@@ -43,11 +43,11 @@ async function shot(videoID: string) {
     }
 }
 
-export default function (req: NowRequest, res: NowResponse) {
+export default async function (req: NowRequest, res: NowResponse) {
     const videoID = req.query["id"]
     if (typeof videoID !== "string") return res.status(400).write("invalid id")
     if (!/^[a-z]{2}[1-9][0-9]*$/.test(videoID)) return res.status(400).write("wrong id")
-    const img = shot(videoID)
+    const img = await shot(videoID)
     res.setHeader("Content-Type", "image/png")
     res.setHeader("Cache-Control", "max-age=86400, public, stale-while-revalidate")
     res.send(img)
