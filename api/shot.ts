@@ -7,6 +7,9 @@ function getThumbURL(videoID: string) {
     if (videoID.startsWith("im") || videoID.startsWith("mg")) {
         return `https://ext.seiga.nicovideo.jp/thumb/${videoID}`
     }
+    if (videoID.startsWith("lv")) {
+        return `https://live.nicovideo.jp/embed/${videoID}`
+    }
     return `https://ext.nicovideo.jp/thumb/${videoID}`
 }
 
