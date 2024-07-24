@@ -7,10 +7,10 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@sparticuz/chromium": "126.0.0",
     "@vercel/node": "^3.2.7",
-    "chrome-aws-lambda": "^10.1.0",
     "ejs": "^3.1.10",
-    "puppeteer-core": "^10.1.0"
+    "puppeteer-core": "^22.13.1"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",

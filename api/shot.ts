@@ -1,8 +1,9 @@
-import chromium from "chrome-aws-lambda"
 import { NowRequest, NowResponse } from "@vercel/node"
 import fs from "fs"
 import path from "path"
 import ejs from "ejs"
+import chromium from "@sparticuz/chromium"
+import puppeteer from "puppeteer-core"
 
 async function getThumbURL(videoID: string) {
     if (videoID.startsWith("im") || videoID.startsWith("mg")) {
@@ -69,7 +70,6 @@ function chromiumFontSetup() {
 
 async function shot(videoID: string) {
     chromiumFontSetup()
-    const { puppeteer } = chromium
     const agent = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: {
@@ -78,7 +78,8 @@ async function shot(videoID: string) {
             width: 312 + 2,
             height: 176 + 2,
         },
-        executablePath: await chromium.executablePath,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
         env: {
             ...process.env,
             LANG: "ja_JP.UTF-8"

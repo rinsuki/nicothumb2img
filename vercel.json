@@ -2,5 +2,6 @@
     "routes": [
         { "src": "/api/.*", "status": 404 },
         { "src": "^/image/(?<id>[a-z]{2}?[1-9][0-9]*)$", "dest": "/api/shot?id=$id" }
-    ]
+    ],
+    "regions": ["hnd1"]
 }
