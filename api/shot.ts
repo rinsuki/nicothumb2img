@@ -2,15 +2,57 @@ import chromium from "chrome-aws-lambda"
 import { NowRequest, NowResponse } from "@vercel/node"
 import fs from "fs"
 import path from "path"
+import ejs from "ejs"
 
-function getThumbURL(videoID: string) {
+async function getThumbURL(videoID: string) {
     if (videoID.startsWith("im") || videoID.startsWith("mg")) {
         return `https://ext.seiga.nicovideo.jp/thumb/${videoID}`
     }
     if (videoID.startsWith("lv")) {
         return `https://live.nicovideo.jp/embed/${videoID}`
     }
+    // until actual release
+    try {
+        const html = await htmlBuilderFromSnapshotSearch(videoID)
+        if (html != null) {
+            return `data:text/html;base64,` + Buffer.from(html, "utf-8").toString("base64")
+        }
+    } catch(e) {
+        console.error(e)
+    }
     return `https://ext.nicovideo.jp/thumb/${videoID}`
+}
+
+async function htmlBuilderFromSnapshotSearch(videoID: string) {
+    const res = await fetch("https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search?q=&fields=contentId,title,startTime,viewCounter,likeCounter,commentCounter,mylistCounter,lengthSeconds,startTime,lastResBody,description,thumbnailUrl&_sort=_score&filters[contentId][0]=" + encodeURIComponent(videoID))
+    if (!res.ok) return null
+    const json = await res.json()
+    const data = json.data && json.data[0]
+    if (data == null) return null
+    return await ejs.renderFile("template.ejs", {
+        data,
+        readableNumber(number: number) {
+            return number.toLocaleString("en-US")
+        },
+        readableTime(number: number) {
+            return `${Math.floor(number / 60)}:${(number % 60).toString().padStart(2, "0")}`
+        },
+        readableDate(dateString: string) {
+            const date = new Date(dateString)
+            const f = (number: number) => number.toString().padStart(2, "0")
+            return [
+                f(date.getFullYear() % 100),
+                "/",
+                f(date.getMonth() + 1),
+                "/",
+                f(date.getDate()),
+                " ",
+                f(date.getHours()),
+                ":",
+                f(date.getMinutes()),
+            ].join("")
+        }
+    })
 }
 
 function chromiumFontSetup() {
@@ -44,7 +86,7 @@ async function shot(videoID: string) {
     })
     const page = await agent.newPage()
     try {
-        await page.goto(getThumbURL(videoID))
+        await page.goto(await getThumbURL(videoID))
         await Promise.all([
             page.addStyleTag({
                 // 上のドット絵をきれいに表示するように
