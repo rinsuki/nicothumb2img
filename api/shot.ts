@@ -30,7 +30,7 @@ async function htmlBuilderFromSnapshotSearch(videoID: string) {
     const json = await res.json()
     const data = json.data && json.data[0]
     if (data == null) return null
-    return await ejs.renderFile(__dirname+"/../template.ejs", {
+    return await ejs.renderFile(__dirname+"/template.ejs", {
         data,
         readableNumber(number: number) {
             return number.toLocaleString("en-US")
