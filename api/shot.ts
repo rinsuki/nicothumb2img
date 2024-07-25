@@ -39,18 +39,18 @@ async function htmlBuilderFromSnapshotSearch(videoID: string) {
             return `${Math.floor(number / 60)}:${(number % 60).toString().padStart(2, "0")}`
         },
         readableDate(dateString: string) {
-            const date = new Date(dateString)
+            const date = new Date(new Date(dateString).getTime() + (9 * 60 * 60 * 1000))
             const f = (number: number) => number.toString().padStart(2, "0")
             return [
-                f(date.getFullYear() % 100),
+                f(date.getUTCFullYear() % 100),
                 "/",
-                f(date.getMonth() + 1),
+                f(date.getUTCMonth() + 1),
                 "/",
-                f(date.getDate()),
+                f(date.getUTCDate()),
                 " ",
-                f(date.getHours()),
+                f(date.getUTCHours()),
                 ":",
-                f(date.getMinutes()),
+                f(date.getUTCMinutes()),
             ].join("")
         }
     })
