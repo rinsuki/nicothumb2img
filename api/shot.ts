@@ -35,7 +35,7 @@ async function htmlBuilderFromSnapshotSearch(videoID: string) {
         data,
         readableDesc(html: string) {
             const text = new JSDOM(html).window.document.documentElement.textContent ?? ""
-            return text.length > 59 ? text + "..." : text
+            return text.length > 59 ? text.slice(0, 59) + "..." : text
         },
         readableNumber(number: number) {
             return number.toLocaleString("en-US")
