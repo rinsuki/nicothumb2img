@@ -4,6 +4,7 @@ import path from "path"
 import ejs from "ejs"
 import chromium from "@sparticuz/chromium"
 import puppeteer from "puppeteer-core"
+import { JSDOM } from "jsdom"
 
 async function getThumbURL(videoID: string) {
     if (videoID.startsWith("im") || videoID.startsWith("mg")) {
@@ -32,6 +33,10 @@ async function htmlBuilderFromSnapshotSearch(videoID: string) {
     if (data == null) return null
     return await ejs.renderFile(__dirname+"/template.ejs", {
         data,
+        readableDesc(html: string) {
+            const text = new JSDOM(html).window.document.textContent ?? ""
+            return text.length > 59 ? text + "..." : text
+        },
         readableNumber(number: number) {
             return number.toLocaleString("en-US")
         },

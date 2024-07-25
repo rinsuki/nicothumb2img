@@ -37,7 +37,7 @@
 <strong><%= readableDate(data.startTime) %></strong> 投稿
 </p>
 <p class="TXT12"><a href="https://www.nicovideo.jp/watch/<%= data.contentId %>" target="_blank" class="video"><%= data.title %></a></p>
-<p class="TXT10"><%= data.description %></p>
+<p class="TXT10"><%= readableDesc(data.description) %></p>
 </td>
 </tr>
 </table>
