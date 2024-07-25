@@ -34,7 +34,7 @@ async function htmlBuilderFromSnapshotSearch(videoID: string) {
     return await ejs.renderFile(__dirname+"/template.ejs", {
         data,
         readableDesc(html: string) {
-            const text = new JSDOM(html).window.document.textContent ?? ""
+            const text = new JSDOM(html).window.document.documentElement.textContent ?? ""
             return text.length > 59 ? text + "..." : text
         },
         readableNumber(number: number) {
