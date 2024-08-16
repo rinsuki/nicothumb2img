@@ -14,14 +14,14 @@ async function getThumbURL(videoID: string) {
         return `https://live.nicovideo.jp/embed/${videoID}`
     }
     // until actual release
-    try {
-        const html = await htmlBuilderFromSnapshotSearch(videoID)
-        if (html != null) {
-            return `data:text/html;base64,` + Buffer.from(html, "utf-8").toString("base64")
-        }
-    } catch(e) {
-        console.error(e)
-    }
+    // try {
+    //     const html = await htmlBuilderFromSnapshotSearch(videoID)
+    //     if (html != null) {
+    //         return `data:text/html;base64,` + Buffer.from(html, "utf-8").toString("base64")
+    //     }
+    // } catch(e) {
+    //     console.error(e)
+    // }
     return `https://ext.nicovideo.jp/thumb/${videoID}`
 }
 
